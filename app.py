@@ -43,7 +43,7 @@ def main():
 			submit_text = st.form_submit_button(label = 'Submit')
 
 		if submit_text:
-			col1, col2, col3, col4 = st.columns(4)
+			col1, col2 = st.columns(2)
 
 			# Apply Function Here
 			emotion_prediction_model = pipe_lr1
@@ -57,22 +57,6 @@ def main():
 			add_prediction_details(raw_text, emotion_prediction, np.max(emotion_probability), datetime.now())
 
 			with col1:
-				st.success("Language Prediction")
-				st.write("{}".format(language_prediction))
-				st.write("Confidence:{}".format(np.max(language_probability)))
-
-			with col2:
-				st.success("Language Prediction Probability")
-				# st.write(probability)
-				proba_df = pd.DataFrame(language_probability, columns = language_prediction_model.classes_)
-				# st.write(proba_df.T)
-				proba_df_clean = proba_df.T.reset_index()
-				proba_df_clean.columns = ["language", "probability"]
-
-				fig = alt.Chart(proba_df_clean).mark_bar().encode(x = 'language', y = 'probability', color = 'language')
-				st.altair_chart(fig,use_container_width = True)
-
-			with col3:
 				st.success("Original Text")
 				st.write(raw_text)
 
@@ -81,7 +65,7 @@ def main():
 				st.write("{}:{}".format(emotion_prediction, emoji_icon))
 				st.write("Confidence:{}".format(np.max(emotion_probability)))
 
-			with col4:
+			with col2:
 				st.success("Emotion Prediction Probability")
 				# st.write(probability)
 				proba_df = pd.DataFrame(emotion_probability, columns = emotion_prediction_model.classes_)
